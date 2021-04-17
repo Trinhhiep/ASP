@@ -19,6 +19,7 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         searchBar.delegate = self
         myCollection.dataSource = self
+        myCollection.delegate = self
         let data = Data()
         Items = data.listItem
         ItemTypes = data.listTypeItem
@@ -26,6 +27,7 @@ class ViewController: UIViewController {
         
         sortArrInDic( &DictionaryItem!)
         CurrentDictionaryItem = DictionaryItem
+       
     }
     
     func arrToDic(_ items:[LOLItem],_ types:[ItemType])->   [Int: [LOLItem]]{
@@ -53,8 +55,19 @@ class ViewController: UIViewController {
     }
     
     
+    
 }
-
+extension ViewController: UICollectionViewDelegate{
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        let detailScreen = sb.instantiateViewController(withIdentifier: "DETAIL") as! DetailViewController
+        let arr = CurrentDictionaryItem![indexPath.section]
+      
+        detailScreen.item = arr![indexPath.item]
+        self.navigationController?.pushViewController(detailScreen, animated: true)
+    }
+    
+}
 extension ViewController : UICollectionViewDataSource{
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return ItemTypes!.count
@@ -123,21 +136,3 @@ extension ViewController: UISearchBarDelegate{
    
     
 }
-//
-//extension String {
-//    var forSorting: String {
-//        let simple = folding(options: [.diacriticInsensitive, .widthInsensitive, .caseInsensitive], locale: nil)
-//        let nonAlphaNumeric = CharacterSet.alphanumerics.inverted
-//        return simple.components(separatedBy: nonAlphaNumeric).joined(separator: "")
-//    }
-//}
-//extension ViewController: UICollectionViewDelegateFlowLayout{
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        print("Size for item at ")
-//        return CGSize(width: 100, height: 100)
-//    }
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-//        return 50
-//    }
-//
-//}

@@ -20,6 +20,8 @@
 		84122F11262920FC00F8084D /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84122F10262920FC00F8084D /* Data.swift */; };
 		84122F16262922CB00F8084D /* ItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84122F15262922CB00F8084D /* ItemCell.swift */; };
 		84122F1B2629326B00F8084D /* headerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84122F1A2629326B00F8084D /* headerCell.swift */; };
+		84ED7689262A8D670019834F /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84ED7688262A8D670019834F /* DetailViewController.swift */; };
+		84ED768E262A94560019834F /* DetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84ED768D262A94560019834F /* DetailCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +61,8 @@
 		84122F10262920FC00F8084D /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		84122F15262922CB00F8084D /* ItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCell.swift; sourceTree = "<group>"; };
 		84122F1A2629326B00F8084D /* headerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = headerCell.swift; sourceTree = "<group>"; };
+		84ED7688262A8D670019834F /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		84ED768D262A94560019834F /* DetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +125,8 @@
 				84122F10262920FC00F8084D /* Data.swift */,
 				84122F15262922CB00F8084D /* ItemCell.swift */,
 				84122F1A2629326B00F8084D /* headerCell.swift */,
+				84ED7688262A8D670019834F /* DetailViewController.swift */,
+				84ED768D262A94560019834F /* DetailCell.swift */,
 			);
 			path = StoreItem;
 			sourceTree = "<group>";
@@ -273,6 +279,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84ED768E262A94560019834F /* DetailCell.swift in Sources */,
+				84ED7689262A8D670019834F /* DetailViewController.swift in Sources */,
 				84122EDA262920AF00F8084D /* ViewController.swift in Sources */,
 				84122F11262920FC00F8084D /* Data.swift in Sources */,
 				84122ED6262920AF00F8084D /* AppDelegate.swift in Sources */,
