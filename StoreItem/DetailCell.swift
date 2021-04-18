@@ -26,5 +26,10 @@ class DetailCell: UITableViewCell {
 
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0))
     }
+    
+    func updateUI(_ item : LOLItem)  {
+        imgSubItem.image = UIImage(named: item.icon)
+        lblPrice.text = String(item.price)
+    }
 
 }

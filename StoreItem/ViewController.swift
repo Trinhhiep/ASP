@@ -12,14 +12,17 @@ class ViewController: UIViewController {
     var ItemTypes: [ItemType]?
     var DictionaryItem : [Int:[LOLItem]]?
     var CurrentDictionaryItem : [Int:[LOLItem]]?
+  
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var myCollection: UICollectionView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+       
+        callRocketAPI()
         searchBar.delegate = self
         myCollection.dataSource = self
         myCollection.delegate = self
+        
         let data = Data()
         Items = data.listItem
         ItemTypes = data.listTypeItem
@@ -27,8 +30,47 @@ class ViewController: UIViewController {
         
         sortArrInDic( &DictionaryItem!)
         CurrentDictionaryItem = DictionaryItem
-       
+        
     }
+    //============================
+    func callRocketAPI() {
+        
+        let url = "https://api.spacexdata.com/v4/rockets"
+        guard let URL = URL(string: url) else {
+          return
+        }
+        let task = URLSession.shared.dataTask(with: URL) { [self]
+            ( data, response, error) in
+            guard let data = data else { return }
+                     var   jsonString = String(data: data, encoding: .utf8)!
+            print(jsonString)
+            
+        }
+        
+        task.resume()
+       
+           
+    }
+//    func parseToObj(_ jsonString : String)  {
+//
+//        guard let dataFromJson = jsonString.data(using: .utf8) else{
+//
+//return
+//}
+//        do {
+//            let rocket = try JSONDecoder().decode(Rocket.self, from: dataFromJson)
+//            print("=====================================")
+//            print( rocket)
+//        } catch  {
+//            print("false")
+//        }
+//
+//
+//
+//    }
+    
+    //============================
+    
     
     func arrToDic(_ items:[LOLItem],_ types:[ItemType])->   [Int: [LOLItem]]{
         var dic : [Int: [LOLItem]] = [:]
@@ -49,7 +91,7 @@ class ViewController: UIViewController {
     func sortArrInDic(_ dic: inout [Int:[LOLItem]])  {
         
         for (k,v) in dic{
-          dic[k] =  v.sorted(by: {$0.price < $1.price})
+            dic[k] =  v.sorted(by: {$0.price < $1.price})
         }
         
     }
@@ -62,7 +104,7 @@ extension ViewController: UICollectionViewDelegate{
         let sb = UIStoryboard(name: "Main", bundle: nil)
         let detailScreen = sb.instantiateViewController(withIdentifier: "DETAIL") as! DetailViewController
         let arr = CurrentDictionaryItem![indexPath.section]
-      
+        
         detailScreen.item = arr![indexPath.item]
         self.navigationController?.pushViewController(detailScreen, animated: true)
     }
@@ -82,9 +124,8 @@ extension ViewController : UICollectionViewDataSource{
         
         let cell = myCollection.dequeueReusableCell(withReuseIdentifier: "ITEMCELL", for: indexPath) as! ItemCell
         let arr = CurrentDictionaryItem![indexPath.section]
-        cell.imgItem.image = UIImage(named: arr![indexPath.item].icon)
-        cell.lblPrice.text = String(arr![indexPath.item].price)
-        
+
+        cell.updateUI( arr![indexPath.item])
         
         return cell
     }
@@ -95,20 +136,14 @@ extension ViewController : UICollectionViewDataSource{
             
             let headerView = myCollection.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "HEADERCELL", for: indexPath) as! headerCell
             
-            headerView.lblHeader.text =  ItemTypes![indexPath.section].typeName 
-            
-            
+            headerView.updateUI(ItemTypes![indexPath.section].typeName)
             return headerView
-            
-            
             
         default:
             
             assert(false, "Unexpected element kind")
         }
     }
-    
-  
 }
 
 extension ViewController: UISearchBarDelegate{
@@ -116,14 +151,14 @@ extension ViewController: UISearchBarDelegate{
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         guard  !searchText.isEmpty else {
             
-           CurrentDictionaryItem = DictionaryItem
+            CurrentDictionaryItem = DictionaryItem
             myCollection.reloadData()
             return
         }
         let text = searchText.folding(options: .diacriticInsensitive, locale: .current).lowercased()
         
         let arr = Items?.filter({$0.name.folding(options: .diacriticInsensitive, locale: .current).lowercased().contains(text)})
-       
+        
         CurrentDictionaryItem = arrToDic(arr!, ItemTypes!)
         sortArrInDic( &CurrentDictionaryItem!)
         
@@ -133,6 +168,30 @@ extension ViewController: UISearchBarDelegate{
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
         
     }
-   
+    
+    
+}
+extension ViewController: UICollectionViewDelegateFlowLayout{
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 100, height: 150)
+    }
+    // khoang cách từ viền tới phan noi dung section
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+    }
+    
+    // khoảng cách giua 2 dòng trong 1 section
+    //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    //        return CGFloat(1000)
+    //    }
+    
+    //    khoang cách giua cac item
+    //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    //        return CGFloat(100)
+    //    }
+    //size for header
+    //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    //        return CGSize(width: 100, height: 100)
+    //    }
     
 }

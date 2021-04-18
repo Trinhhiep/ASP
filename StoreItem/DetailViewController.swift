@@ -10,11 +10,12 @@ import UIKit
 class DetailViewController: UIViewController {
     var item : LOLItem?
     var subItems :[LOLItem]?
-    @IBOutlet weak var lblContent: UILabel!
+//    @IBOutlet weak var lblContent: UILabel!
     @IBOutlet weak var lblPrice: UILabel!
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var imgItem: UIImageView!
     
+    @IBOutlet weak var lblContent: UITextView!
     @IBOutlet weak var myTableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,9 +39,7 @@ extension DetailViewController: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = myTableView.dequeueReusableCell(withIdentifier: "DETAILCELL") as! DetailCell
-        
-        cell.imgSubItem.image = UIImage(named: subItems![indexPath.row].icon)
-        cell.lblPrice.text = String(subItems![indexPath.row].price)
+        cell.updateUI(subItems![indexPath.row])
         
         return cell
     }
